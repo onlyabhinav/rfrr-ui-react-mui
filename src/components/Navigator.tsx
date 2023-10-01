@@ -42,10 +42,10 @@ const categories = [
     ],
   },
   {
-    id: 'Manage Customers',
+    id: 'Customers',
     children: [
-      { id: 'Manage Customer List', icon: <SettingsIcon /> },
-      { id: 'Edit Customer List', icon: <TimerIcon /> }
+      { id: 'Manage Customer List', icon: <SupervisedUserCircleIcon /> },
+      { id: 'Edit Customer List', icon: <GroupAddIcon /> }
           ],
   },
 ];
@@ -71,10 +71,17 @@ export default function Navigator(props: DrawerProps) {
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
+
+
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
           MyCampaign
         </ListItem>
-
+        <ListItem sx={{ ...item, ...itemCategory }}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText>Dashboard</ListItemText>
+        </ListItem>
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>
             <ListItem sx={{ py: 2, px: 3 }}>
