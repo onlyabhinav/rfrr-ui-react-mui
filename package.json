@@ -14,7 +14,9 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "@mui/x-data-grid":"latest",
+    "react-final-form":"latest"
   },
   "devDependencies": {
     "@types/react": "latest",

@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Button } from '@mui/material';
 
 function createData(
   name: string,
@@ -36,6 +37,7 @@ export default function DenseTable() {
             <TableCell align="right">Fat&nbsp;(g)</TableCell>
             <TableCell align="right">Carbs&nbsp;(g)</TableCell>
             <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell align="right"><Button>Hello</Button></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -51,6 +53,17 @@ export default function DenseTable() {
               <TableCell align="right">{row.fat}</TableCell>
               <TableCell align="right">{row.carbs}</TableCell>
               <TableCell align="right">{row.protein}</TableCell>
+              
+              <TableCell align="right">
+              
+                                <Button variant="contained" color="success" size="small"
+                    onClick={() => {
+                        alert('clicked');
+                    }}
+                    >
+Add                    </Button>
+              </TableCell>
+
             </TableRow>
           ))}
         </TableBody>
