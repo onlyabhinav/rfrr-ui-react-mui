@@ -23,7 +23,7 @@ export default function CampaignHome() {
         elevation={0}
         sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
       >
-        <Button variant="outlined" color="info" >Hello</Button>
+        <Button variant="outlined" color="info" >Campaign Home</Button>
       </AppBar>
       
       <DenseTable/>

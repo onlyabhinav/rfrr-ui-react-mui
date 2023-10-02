@@ -10,6 +10,13 @@ import CampaignHome from './pages/CampaignHome';
 import Header from './sections/Header';
 import HorizontalNonLinearStepper from './controls/HorizontalNonLinearStepper';
 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CreateCampaign from './pages/CampaignManage';
+import CampaignCreate from './pages/CampaignCreate';
+import CampaignManage from './pages/CampaignManage';
+import CampaignPerformance from './pages/CampaignPerformance';
+import Pagenotfound from './pages/Pagenotfound';
+
 let theme = createTheme({
   palette: {
     primary: {
@@ -187,6 +194,17 @@ export default function Paperbase() {
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Header onDrawerToggle={handleDrawerToggle} />
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
+
+          <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<CampaignHome />} />
+          <Route path="/create" element={<CampaignCreate />} />
+          <Route path="/contact" element={<CampaignManage />} />
+          <Route path="/performance" element={<CampaignPerformance />} />
+          <Route path="*" element={<Pagenotfound />} />
+        </Routes>
+      </BrowserRouter>
+
             <CampaignHome />
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>

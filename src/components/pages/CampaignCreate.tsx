@@ -13,7 +13,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import DenseTable from '../controls/DenseTable';
 import DataGridDemo from '../controls/DataGridDemo';
 
-export default function CreateCampaign() {
+export default function CampaignCreate() {
   return (
     <Paper sx={{ maxWidth: 4000, margin: 'auto', overflow: 'hidden' }}>
       <AppBar

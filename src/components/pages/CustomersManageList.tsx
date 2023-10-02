@@ -14,7 +14,7 @@ import DenseTable from '../controls/DenseTable';
 import DataGridDemo from '../controls/DataGridDemo';
 
 
-export default function Content() {
+export default function CustomersManageList() {
   return (
     <Paper sx={{ maxWidth: 4000, margin: 'auto', overflow: 'hidden' }}>
       <AppBar
@@ -23,7 +23,7 @@ export default function Content() {
         elevation={0}
         sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
       >
-        <Button variant="outlined" color="info" >Hello</Button>
+        <Button variant="outlined" color="info" >MANAGE CUSTOMER LIST</Button>
       </AppBar>
       
       <DenseTable/>
