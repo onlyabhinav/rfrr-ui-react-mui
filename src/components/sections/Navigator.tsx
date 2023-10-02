@@ -68,6 +68,10 @@ const itemCategory = {
 export default function Navigator(props: DrawerProps) {
   const { ...other } = props;
 
+  const btnClickHandler = (event) => {
+    console.log("button clicked" + event.target.innerText );
+  }
+
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
@@ -89,7 +93,7 @@ export default function Navigator(props: DrawerProps) {
             </ListItem>
             {children.map(({ id: childId, icon, active }) => (
               <ListItem disablePadding key={childId}>
-                <ListItemButton selected={active} sx={item}>
+                <ListItemButton selected={active} sx={item} onClick={btnClickHandler}>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{childId}</ListItemText>
                 </ListItemButton>

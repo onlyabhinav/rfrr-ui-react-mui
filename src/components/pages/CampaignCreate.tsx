@@ -10,11 +10,10 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import DenseTable from './DenseTable';
-import DataGridDemo from './DataGridDemo';
-import SignUp from './SignUp';
+import DenseTable from '../controls/DenseTable';
+import DataGridDemo from '../controls/DataGridDemo';
 
-export default function Content() {
+export default function CreateCampaign() {
   return (
     <Paper sx={{ maxWidth: 4000, margin: 'auto', overflow: 'hidden' }}>
       <AppBar
@@ -23,10 +22,10 @@ export default function Content() {
         elevation={0}
         sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
       >
-        <Button variant="outlined" color="info" >Hello</Button>
+        <Button variant="outlined" color="info" >CREATE CAMPAIGN</Button>
       </AppBar>
       
-      <DenseTable/>
+      {/* <DenseTable/> */}
       {/* <DataGridDemo/> */}
       {/* <SignUp/> */}
 
