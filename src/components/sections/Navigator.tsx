@@ -7,17 +7,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import PeopleIcon from '@mui/icons-material/People';
-import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
-import PermMediaOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActual';
-import PublicIcon from '@mui/icons-material/Public';
-import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
-import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
-import TimerIcon from '@mui/icons-material/Timer';
-import SettingsIcon from '@mui/icons-material/Settings';
-import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
+
 
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -27,25 +18,26 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
+import { Link } from 'react-router-dom';
 
 const categories = [
   {
     id: 'Campaigns',
     children: [
       {
-        id: 'Create',
+        id: 'createcampaign', label: 'Create Campaign',
         icon: <AddCircleIcon />,
         active: true,
       },
-      { id: 'Manage', icon: <ViewListIcon /> },
-      { id: 'Performance', icon: <MonitorHeartIcon /> },
+      { id: 'managecampaign', label:'Manage Campaign' ,icon: <ViewListIcon /> },
+      { id: 'campaignperformance', label:'Campaign Performance' , icon: <MonitorHeartIcon /> },
     ],
   },
   {
     id: 'Customers',
     children: [
-      { id: 'Manage Customer List', icon: <SupervisedUserCircleIcon /> },
-      { id: 'Edit Customer List', icon: <GroupAddIcon /> }
+      { id: 'mngcustlist',label:'Manage Customer List' , icon: <SupervisedUserCircleIcon /> },
+      { id: 'editcustlist',label:'Edit Customer List' , icon: <GroupAddIcon /> }
           ],
   },
 ];
@@ -68,8 +60,8 @@ const itemCategory = {
 export default function Navigator(props: DrawerProps) {
   const { ...other } = props;
 
-  const btnClickHandler = (event) => {
-    console.log("button clicked" + event.target.innerText );
+  const btnClickHandler = (event, id) => {
+    console.log("button clicked --> id=" + event.target.name );
   }
 
   return (
@@ -91,12 +83,15 @@ export default function Navigator(props: DrawerProps) {
             <ListItem sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon, active }) => (
+            {children.map(({ id: childId, label, icon, active }) => (
               <ListItem disablePadding key={childId}>
-                <ListItemButton selected={active} sx={item} onClick={btnClickHandler}>
+                
+                <ListItemButton sx={item} onClick={(event)=>btnClickHandler(childId)} >
                   <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText>{childId}</ListItemText>
+                  <ListItemText>{label}</ListItemText>
+                  
                 </ListItemButton>
+
               </ListItem>
             ))}
             <Divider sx={{ mt: 2 }} />

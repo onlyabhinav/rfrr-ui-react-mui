@@ -205,7 +205,7 @@ export default function Paperbase() {
         </Routes>
       </BrowserRouter>
 
-            <CampaignHome />
+            {/* <CampaignHome /> */}
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
             {/* <HorizontalNonLinearStepper/> */}
