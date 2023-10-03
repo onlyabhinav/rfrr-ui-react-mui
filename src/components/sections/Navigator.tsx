@@ -1,110 +1,119 @@
-import * as React from 'react';
-import Divider from '@mui/material/Divider';
-import Drawer, { DrawerProps } from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Box from '@mui/material/Box';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import * as React from "react";
+import Divider from "@mui/material/Divider";
+import Drawer, { DrawerProps } from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Box from "@mui/material/Box";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import GridViewIcon from '@mui/icons-material/GridView';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
-import { Link } from 'react-router-dom';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import GridViewIcon from "@mui/icons-material/GridView";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const categories = [
   {
-    id: 'Campaigns',
+    id: "Campaigns",
     children: [
       {
-        id: 'createcampaign', label: 'Create Campaign',
+        id: "createcampaign",
+        label: "Create Campaign",
         icon: <AddCircleIcon />,
         active: true,
       },
-      { id: 'managecampaign', label:'Manage Campaign' ,icon: <ViewListIcon /> },
-      { id: 'campaignperformance', label:'Campaign Performance' , icon: <MonitorHeartIcon /> },
+      {
+        id: "managecampaign",
+        label: "Manage Campaign",
+        icon: <ViewListIcon />,
+      },
+      {
+        id: "campaignperformance",
+        label: "Campaign Performance",
+        icon: <MonitorHeartIcon />,
+      },
     ],
   },
   {
-    id: 'Customers',
+    id: "Customers",
     children: [
-      { id: 'mngcustlist',label:'Manage Customer List' , icon: <SupervisedUserCircleIcon /> },
-      { id: 'editcustlist',label:'Edit Customer List' , icon: <GroupAddIcon /> }
-          ],
+      {
+        id: "mngcustlist",
+        label: "Manage Customer List",
+        icon: <SupervisedUserCircleIcon />,
+      },
+      {
+        id: "editcustlist",
+        label: "Edit Customer List",
+        icon: <GroupAddIcon />,
+      },
+    ],
   },
 ];
 
 const item = {
-  py: '2px',
+  py: "2px",
   px: 3,
-  color: 'rgba(255, 255, 255, 0.7)',
-  '&:hover, &:focus': {
-    bgcolor: 'rgba(255, 255, 255, 0.08)',
+  color: "rgba(255, 255, 255, 0.7)",
+  "&:hover, &:focus": {
+    bgcolor: "rgba(255, 255, 255, 0.08)",
   },
 };
 
 const itemCategory = {
-  boxShadow: '0 -1px 0 rgb(255,255,255,0.1) inset',
+  boxShadow: "0 -1px 0 rgb(255,255,255,0.1) inset",
   py: 1.5,
   px: 3,
 };
 
 export default function Navigator(props: DrawerProps) {
   const { ...other } = props;
+  const navigate = useNavigate();
 
   const btnClickHandler = (event, id) => {
-    console.log("button clicked --> id=" + event.target.name );
-  }
+    console.log("button clicked --> id=" + event.target.name);
+  };
 
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-
-
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
-          MyCampaign
-        </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }}>
+        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}>MyCampaign</ListItem>
+        <ListItemButton sx={{ ...item, ...itemCategory }} onClick={() => navigate("createcampaign")}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText>Dashboard</ListItemText>
-        </ListItem>
+        </ListItemButton>
         {categories.map(({ id, children }) => (
-          <Box key={id} sx={{ bgcolor: '#101F33' }}>
+          <Box key={id} sx={{ bgcolor: "#101F33" }}>
             <ListItem sx={{ py: 2, px: 3 }}>
-              <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
+              <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
             </ListItem>
             {children.map(({ id: childId, label, icon, active }) => (
               <ListItem disablePadding key={childId}>
-                
-                <ListItemButton sx={item} onClick={(event)=>btnClickHandler(childId)} >
+                <ListItemButton sx={item} onClick={() => navigate(childId)}>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{label}</ListItemText>
-                  
                 </ListItemButton>
-
               </ListItem>
             ))}
             <Divider sx={{ mt: 2 }} />
           </Box>
         ))}
 
-
-        <ListItem sx={{ ...item, ...itemCategory }}>
+        <ListItemButton sx={{ ...item, ...itemCategory }}>
           <ListItemIcon>
             <GitHubIcon />
           </ListItemIcon>
           <ListItemText>Source Code</ListItemText>
-        </ListItem>
+        </ListItemButton>
       </List>
     </Drawer>
   );
