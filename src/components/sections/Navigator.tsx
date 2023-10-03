@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import Divider from "@mui/material/Divider";
 import Drawer, { DrawerProps } from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -77,8 +78,18 @@ export default function Navigator(props: DrawerProps) {
   const { ...other } = props;
   const navigate = useNavigate();
 
-  const btnClickHandler = (event, id) => {
-    console.log("button clicked --> id=" + event.target.name);
+  const [selectedChild, setSelectedChild] = React.useState("createcampaign");
+
+  useEffect(() => {
+    // const path = window.location.pathname;
+    //    const childId = path.split("/")[1];
+    setSelectedChild("createcampaign");
+    navigate("createcampaign");
+  }, []);
+
+  const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, childId: string) => {
+    setSelectedChild(childId);
+    navigate(childId);
   };
 
   return (
@@ -98,7 +109,12 @@ export default function Navigator(props: DrawerProps) {
             </ListItem>
             {children.map(({ id: childId, label, icon, active }) => (
               <ListItem disablePadding key={childId}>
-                <ListItemButton sx={item} onClick={() => navigate(childId)}>
+                {/* <ListItemButton sx={item} onClick={() => navigate(childId)}> */}
+                <ListItemButton
+                  sx={item}
+                  selected={selectedChild === childId}
+                  onClick={(event) => handleListItemClick(event, childId)}
+                >
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{label}</ListItemText>
                 </ListItemButton>
