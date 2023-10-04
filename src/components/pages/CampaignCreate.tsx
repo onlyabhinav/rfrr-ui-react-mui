@@ -12,6 +12,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import DenseTable from "../controls/DenseTable";
 import DataGridDemo from "../controls/DataGridDemo";
+import TheForm from "../controls/TheForm";
+import TheForm2 from "../controls/TheForm2";
 
 export default function CampaignCreate() {
   return (
@@ -22,6 +24,7 @@ export default function CampaignCreate() {
         </Button>
       </AppBar>
 
+      <TheForm2 />
       {/* <DenseTable /> */}
       {/* <DataGridDemo/> */}
       {/* <SignUp/> */}

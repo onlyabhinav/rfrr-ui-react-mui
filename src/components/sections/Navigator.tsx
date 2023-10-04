@@ -20,6 +20,74 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
+export default function Navigator(props: DrawerProps) {
+  const { ...other } = props;
+  const navigate = useNavigate();
+
+  const [selectedChild, setSelectedChild] = React.useState("createcampaign");
+
+  // this load pages  when the page is refreshed
+  useEffect(() => {
+    // const path = window.location.pathname;
+    //    const childId = path.split("/")[1];
+    setSelectedChild("createcampaign");
+    navigate("createcampaign");
+  }, []);
+
+  // this load pages  when button is clicked
+  const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, childId: string) => {
+    setSelectedChild(childId);
+    navigate(childId);
+  };
+
+  return (
+    <Drawer variant="permanent" {...other}>
+      <List disablePadding>
+        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}>MyCampaign</ListItem>
+        <ListItemButton
+          sx={{ ...item, ...itemCategory }}
+          selected={true}
+          key={"dashboard"}
+          onClick={() => navigate("dashboard")}
+        >
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText>Dashboard</ListItemText>
+        </ListItemButton>
+        {categories.map(({ id, children }) => (
+          <Box key={id} sx={{ bgcolor: "#101F33" }}>
+            <ListItem sx={{ py: 2, px: 3 }}>
+              <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
+            </ListItem>
+            {children.map(({ id: childId, label, icon, active }) => (
+              <ListItem disablePadding key={childId}>
+                {/* <ListItemButton sx={item} onClick={() => navigate(childId)}> */}
+                <ListItemButton
+                  sx={item}
+                  selected={selectedChild === childId}
+                  onClick={(event) => handleListItemClick(event, childId)}
+                >
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText>{label}</ListItemText>
+                </ListItemButton>
+              </ListItem>
+            ))}
+            <Divider sx={{ mt: 2 }} />
+          </Box>
+        ))}
+
+        <ListItemButton sx={{ ...item, ...itemCategory }}>
+          <ListItemIcon>
+            <GitHubIcon />
+          </ListItemIcon>
+          <ListItemText>Source Code</ListItemText>
+        </ListItemButton>
+      </List>
+    </Drawer>
+  );
+}
+
 const categories = [
   {
     id: "Campaigns",
@@ -73,64 +141,3 @@ const itemCategory = {
   py: 1.5,
   px: 3,
 };
-
-export default function Navigator(props: DrawerProps) {
-  const { ...other } = props;
-  const navigate = useNavigate();
-
-  const [selectedChild, setSelectedChild] = React.useState("createcampaign");
-
-  useEffect(() => {
-    // const path = window.location.pathname;
-    //    const childId = path.split("/")[1];
-    setSelectedChild("createcampaign");
-    navigate("createcampaign");
-  }, []);
-
-  const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, childId: string) => {
-    setSelectedChild(childId);
-    navigate(childId);
-  };
-
-  return (
-    <Drawer variant="permanent" {...other}>
-      <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}>MyCampaign</ListItem>
-        <ListItemButton sx={{ ...item, ...itemCategory }} onClick={() => navigate("createcampaign")}>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText>Dashboard</ListItemText>
-        </ListItemButton>
-        {categories.map(({ id, children }) => (
-          <Box key={id} sx={{ bgcolor: "#101F33" }}>
-            <ListItem sx={{ py: 2, px: 3 }}>
-              <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
-            </ListItem>
-            {children.map(({ id: childId, label, icon, active }) => (
-              <ListItem disablePadding key={childId}>
-                {/* <ListItemButton sx={item} onClick={() => navigate(childId)}> */}
-                <ListItemButton
-                  sx={item}
-                  selected={selectedChild === childId}
-                  onClick={(event) => handleListItemClick(event, childId)}
-                >
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText>{label}</ListItemText>
-                </ListItemButton>
-              </ListItem>
-            ))}
-            <Divider sx={{ mt: 2 }} />
-          </Box>
-        ))}
-
-        <ListItemButton sx={{ ...item, ...itemCategory }}>
-          <ListItemIcon>
-            <GitHubIcon />
-          </ListItemIcon>
-          <ListItemText>Source Code</ListItemText>
-        </ListItemButton>
-      </List>
-    </Drawer>
-  );
-}
