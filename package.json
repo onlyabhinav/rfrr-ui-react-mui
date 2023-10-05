@@ -3,6 +3,8 @@
   "private": true,
   "version": "5.0.0",
   "type": "module",
+  "proxy": "http://localhost:8081/",
+  
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -17,7 +19,8 @@
     "react-dom": "latest",
     "react-router-dom": "latest",
     "@mui/x-data-grid":"latest",
-    "react-final-form":"latest"
+    "react-final-form":"latest",
+    "axios":"latest"
   },
   "devDependencies": {
     "@types/react": "latest",
