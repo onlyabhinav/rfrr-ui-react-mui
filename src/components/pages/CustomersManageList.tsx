@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import DenseTable from "../controls/DenseTable";
-import DataGridDemo from "../controls/DataGridDemo";
+import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { useEffect, useState } from "react";
 import TablePaged from "../controls/TablePaged";
+import FormEx from "../controls/FormEx";
+import { Box, FormLabel, TextField } from "@mui/material";
+import MultiSelectChip from "../controls/MultiSelectCountries";
+import MultiSelectCountries from "../controls/MultiSelectCountries";
+import MultiSelectProfession from "../controls/MultiSelectProfession";
+import AgeSlider from "../controls/AgeSlider";
 
 export default function CustomersManageList() {
   const [customers, setCustomers] = useState([]);
@@ -38,77 +33,60 @@ export default function CustomersManageList() {
   }, []); // Empty dependency array to fetch data only once when the component mounts
 
   const columnsDef = [
-    "id",
+    //   "id",
     "customerid",
     "surname",
     "email",
+    "profession",
     "phone",
-    "creditscore",
+    //   "creditscore",
     "geography",
-    "gender",
+    //  "gender",
     "age",
-    "tenure",
+    //  "tenure",
     "balance",
-    "numofproducts",
-    "hascrcard",
-    "isactivemember",
-    "estimatedsalary",
+    //  "numofproducts",
+    //  "hascrcard",
+    //  "isactivemember",
+    //  "estimatedsalary",
   ];
 
   return (
-    <Paper sx={{ maxWidth: 4000, margin: "auto", overflow: "hidden" }}>
-      <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
-        <Button variant="outlined" color="info">
-          MANAGE CUSTOMER LIST
-        </Button>
+    <Paper sx={{ margin: "auto", overflow: "hidden", borderRadius: 0 }}>
+      <AppBar
+        position="static"
+        color="default"
+        elevation={0}
+        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)", backgroundColor: "#90caf9" }}
+      >
+        <Typography variant="h3" component="h3" align="center" padding={2}>
+          Manage Customer List
+        </Typography>
       </AppBar>
 
-      <TablePaged rows={customers} columns={columnsDef} key="customerid" />
-
-      {/* <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>customerid</TableCell>
-            <TableCell align="right">surname</TableCell>
-            <TableCell align="right">email</TableCell>
-            <TableCell align="right">geography</TableCell>
-            <TableCell align="right">phone</TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {customers.map((row) => (
-            <TableRow key={row.customerid} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-              <TableCell component="th" scope="row">
-                {row.surname}
-              </TableCell>
-              <TableCell align="right">{row.email}</TableCell>
-              <TableCell align="right">{row.geography}</TableCell>
-              <TableCell align="right">{row.phone}</TableCell>
-              <TableCell align="right">{row.age}</TableCell>
-
-              <TableCell align="right">
-                <Button
-                  variant="contained"
-                  color="success"
-                  size="small"
-                  onClick={() => {
-                    alert("clicked");
-                  }}
-                >
-                  Add{" "}
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer> */}
-
-      {/* <DenseTable rows={customers}/> */}
-      {/* <DataGridDemo/> */}
-      {/* <SignUp/> */}
+      <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
+        <Paper elevation={3} sx={{ backgroundColor: "#b2dfdb", borderRadius: 0 }}>
+          <Typography variant="h6" component="h6" align="left" padding={1}>
+            Create a list by applying filters
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              "& > :not(style)": { m: 1 },
+            }}
+          >
+            <MultiSelectProfession />
+            {/* <TextField id="demo-helper-text-aligned" label="Profession" />
+            <TextField id="demo-helper-text-aligned-no-helper" label="Name" /> */}
+            <MultiSelectCountries />
+            <FormLabel component="h3">
+              Age: <AgeSlider />
+            </FormLabel>
+          </Box>
+          <TablePaged rows={customers} columns={columnsDef} key="customerid" />
+        </Paper>
+      </AppBar>
     </Paper>
   );
 }

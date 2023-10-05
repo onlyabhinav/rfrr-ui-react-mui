@@ -98,7 +98,7 @@ export default function TablePaged(props: TableDataProps) {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 500, maxWidth: 900 }} aria-label="custom pagination table">
+      <Table stickyHeader sx={{ minWidth: 500, borderRadius: 0 }} aria-label="sticky table">
         <TableHead>
           <TableRow>
             {columns.map((col) => (
