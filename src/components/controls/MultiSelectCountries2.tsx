@@ -5,7 +5,6 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 
@@ -20,17 +19,12 @@ const MenuProps = {
   },
 };
 
-const professions = [
-  "Teacher",
-  "Doctor",
-  "Engineer",
-  "Accountant",
-  "Lawyer",
-  "Chef",
-  "Police Officer",
-  "Artist",
-  "Nurse",
-  "Student",
+const countries = [
+  //countries of UK
+  "England",
+  "Scotland",
+  "Wales",
+  "Northern Ireland",
 ];
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
@@ -44,7 +38,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-export default function MultiSelectProfession(props: any) {
+export default function MultiSelectCountries2(props: any) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState<string[]>([]);
 
@@ -56,11 +50,7 @@ export default function MultiSelectProfession(props: any) {
     // On autofill we get a stringified value.
     const result = typeof value === "string" ? value.split(",") : value;
     setPersonName(result);
-    props.onProfessionSelect(result);
-    // setPersonName(
-    //   // On autofill we get a stringified value.
-    //   typeof value === "string" ? value.split(",") : value
-    // );
+    props.onItemSelect(result);
   };
 
   return (
@@ -71,9 +61,8 @@ export default function MultiSelectProfession(props: any) {
           variant="outlined"
           size="small"
         >
-          Profession
+          Countries
         </InputLabel>
-
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
@@ -91,7 +80,7 @@ export default function MultiSelectProfession(props: any) {
           )}
           MenuProps={MenuProps}
         >
-          {professions.map((name) => (
+          {countries.map((name) => (
             <MenuItem
               key={name}
               value={name}

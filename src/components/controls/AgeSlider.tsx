@@ -6,11 +6,13 @@ function valuetext(value: number) {
   return `${value}°C`;
 }
 
-export default function AgeSlider() {
+export default function AgeSlider(props: any) {
   const [value, setValue] = React.useState<number[]>([20, 37]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    console.log("newValue", newValue);
+    //console.log("newValue", newValue);
+
+    props.onItemSelect(newValue as number[]);
 
     setValue(newValue as number[]);
   };

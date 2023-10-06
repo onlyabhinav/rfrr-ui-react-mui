@@ -63,7 +63,7 @@ export default function MultiSelectCountries() {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300, paddingTop: 0 }}>
+      <FormControl sx={{ m: 1, width: 300, paddingTop: 0 }}  size="small">
         <InputLabel id="demo-multiple-chip-label" variant="outlined" size="small">
           Countries
         </InputLabel>
