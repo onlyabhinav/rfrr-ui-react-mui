@@ -57,15 +57,34 @@ export default function CustomersManageList() {
     //  "estimatedsalary",
   ];
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitSaveFilter = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const listname = data.get("listname");
     const filterData = {
       ageRange: ageRange,
       countries: countries,
       professions: professions,
+      name: listname,
     };
 
     console.log(filterData);
+
+    // Define the API endpoint URL
+    const apiUrl = "http://localhost:8081/api/v1/custlist/add"; // Replace with your API endpoint
+
+    console.info("Saving Filter --> " + listname);
+
+    // Fetch data from the API
+    axios
+      .post(apiUrl, filterData)
+      .then((response) => {
+        console.info("Filter Saved...");
+        //setCustomers(response.data);
+      })
+      .catch((error) => {
+        console.error("Error while saving filter:", error);
+      });
   };
 
   const handleSubmitFilter = (event: React.FormEvent<HTMLFormElement>) => {
@@ -129,16 +148,8 @@ export default function CustomersManageList() {
         </Typography>
       </AppBar>
 
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
-      >
-        <Paper
-          elevation={3}
-          sx={{ backgroundColor: "#b2dfdb", borderRadius: 0 }}
-        >
+      <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
+        <Paper elevation={3} sx={{ backgroundColor: "#b2dfdb", borderRadius: 0 }}>
           <Typography variant="h6" component="h6" align="center" padding={1}>
             Create a list by applying filters
           </Typography>
@@ -153,9 +164,7 @@ export default function CustomersManageList() {
               "& > :not(style)": { m: 1 },
             }}
           >
-            <MultiSelectProfession
-              onProfessionSelect={handleProfessionSelect}
-            />
+            <MultiSelectProfession onProfessionSelect={handleProfessionSelect} />
             {/* <TextField id="demo-helper-text-aligned" label="Profession" />
             <TextField id="demo-helper-text-aligned-no-helper" label="Name" /> */}
             <MultiSelectCountries2 onItemSelect={handleCountriesSelect} />
@@ -163,12 +172,7 @@ export default function CustomersManageList() {
               Age: <AgeSlider onItemSelect={handleAgeSelect} />
             </FormLabel>
 
-            <Button
-              type="submit"
-              variant="contained"
-              size="small"
-              color="error"
-            >
+            <Button type="submit" variant="contained" size="small" color="error">
               Apply
             </Button>
           </Box>
@@ -177,7 +181,7 @@ export default function CustomersManageList() {
         <Box
           component="form"
           noValidate
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitSaveFilter}
           sx={{
             width: "100%",
             display: "flex",
@@ -198,13 +202,7 @@ export default function CustomersManageList() {
             label="List Name"
             helperText="business friendly name. eg: '2023 Oct Winter Student Campaign Audience'"
           />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{ width: 200 }}
-          >
+          <Button type="submit" variant="contained" color="primary" size="large" sx={{ width: 200 }}>
             Save List
           </Button>
         </Box>

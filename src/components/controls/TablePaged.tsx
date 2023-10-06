@@ -81,7 +81,7 @@ export default function TablePaged(props: TableDataProps) {
 
   const { columns, rows, key } = props;
 
-  console.log("rows", rows);
+  //console.log("rows", rows);
   //tdata = props.rows;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -97,8 +97,8 @@ export default function TablePaged(props: TableDataProps) {
   };
 
   return (
-    <TableContainer component={Paper} sx={{borderRadius:0}} >
-      <Table stickyHeader sx={{ minWidth: 500, borderRadius: 0 }} aria-label="sticky table" >
+    <TableContainer component={Paper} sx={{ borderRadius: 0 }}>
+      <Table stickyHeader sx={{ minWidth: 500, borderRadius: 0 }} aria-label="sticky table">
         <TableHead>
           <TableRow>
             {columns.map((col) => (
