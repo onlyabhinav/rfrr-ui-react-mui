@@ -16,6 +16,10 @@ import FormControl from "@mui/material/FormControl";
 export default function CustomersManageList() {
   const [customers, setCustomers] = useState([]);
 
+  const [ageRange, setAgeRange] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [professions, setProfessions] = useState([]);
+
   useEffect(() => {
     // Define the API endpoint URL
     const apiUrl = "http://localhost:8081/api/v1/customer/getall"; // Replace with your API endpoint
@@ -55,32 +59,58 @@ export default function CustomersManageList() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("listname"),
-      password: data.get("password"),
-    });
+    const filterData = {
+      ageRange: ageRange,
+      countries: countries,
+      professions: professions,
+    };
+
+    console.log(filterData);
   };
 
   const handleSubmitFilter = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(data);
+    const filterData = {
+      ageRange: ageRange,
+      countries: countries,
+      professions: professions,
+    };
+
+    console.log("Filters --> " + filterData);
+
+    // Define the API endpoint URL
+    const apiUrl = "http://localhost:8081/api/v1/customer/getwithfilter"; // Replace with your API endpoint
+
+    console.info("Getting Data from API...");
+
+    // Fetch data from the API
+    axios
+      .post(apiUrl, filterData)
+      .then((response) => {
+        console.info("Data received from API...");
+        setCustomers(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   };
 
   const handleProfessionSelect = (professions: any) => {
     const professionValue = professions;
     console.log("Selected Profession --> " + professionValue);
+    setProfessions(professionValue);
   };
 
   const handleCountriesSelect = (countries: any) => {
     const countriesValue = countries;
     console.log("Selected Countries --> " + countriesValue);
+    setCountries(countriesValue);
   };
 
-  const handleAgeSelect = (ageRange: number[]) => {
+  const handleAgeSelect = (ageRange: any) => {
     const ageRangeValue = ageRange;
     console.log("Selected ageRangeValue --> " + ageRangeValue);
+    setAgeRange(ageRangeValue);
   };
 
   return (
