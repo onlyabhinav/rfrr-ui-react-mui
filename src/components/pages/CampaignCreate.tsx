@@ -15,6 +15,8 @@ import DataGridDemo from "../controls/DataGridDemo";
 import TheForm from "../controls/TheForm";
 import TheForm2 from "../controls/TheForm2";
 import SignUpForm from "../controls/SignUpForm";
+import EventForm from "./EventForm";
+import EventForm2 from "./EventForm2";
 
 export default function CampaignCreate() {
   return (
@@ -33,7 +35,9 @@ export default function CampaignCreate() {
         </Typography>
       </AppBar>
 
-      <SignUpForm />
+      <EventForm2 />
+
+      {/* <SignUpForm /> */}
       {/* <DenseTable /> */}
       {/* <DataGridDemo/> */}
       {/* <SignUp/> */}
