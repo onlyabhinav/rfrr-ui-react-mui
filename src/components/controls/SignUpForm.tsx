@@ -12,6 +12,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Select } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import BasicDatePicker from "./BasicDatePicker";
 
 function Copyright(props: any) {
   return (
@@ -46,7 +50,7 @@ export default function SignUpForm() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="md">
         <CssBaseline />
         <Box
           sx={{
@@ -56,60 +60,59 @@ export default function SignUpForm() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
+          </Avatar> */}
+          <Typography component="h4" variant="h4">
+            New Campaign Details
           </Typography>
           <Box
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+            sx={{ mt: 4 }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+            <Grid container columnSpacing={2} rowSpacing={1}>
+              <Grid item xs={12} sx={{ verticalAlign: "center" }}>
+                <Typography component="label" variant="overline">
+                  Campaign Name
+                </Typography>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
+                  hiddenLabel
                   fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
+                  id="filled-hidden-label-small"
+                  variant="outlined"
+                  size="small"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sx={{ verticalAlign: "center" }}>
+                <Typography component="label" variant="overline">
+                  Campaign Name
+                </Typography>
                 <TextField
-                  required
+                  hiddenLabel
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
+                  id="filled-hidden-label-small"
+                  variant="outlined"
+                  size="small"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
+              <Grid item xs={12} sx={{ verticalAlign: "center" }}>
+                <Typography component="label" variant="overline">
+                  Target Customers:
+                </Typography>
+                <Select
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="filled-hidden-label-small"
+                  variant="outlined"
+                  size="small"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
+              <Grid item xs={12} sx={{ verticalAlign: "center" }}>
+                <Typography component="label" variant="overline">
+                  Schedules:
+                </Typography>
+                <BasicDatePicker />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel

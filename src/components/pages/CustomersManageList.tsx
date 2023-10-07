@@ -2,16 +2,24 @@ import AppBar from "@mui/material/AppBar";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import TablePaged from "../controls/TablePaged";
 import FormEx from "../controls/FormEx";
-import { Box, Button, FormLabel, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormLabel,
+  LinearProgress,
+  TextField,
+} from "@mui/material";
 import MultiSelectChip from "../controls/MultiSelectCountries";
 import MultiSelectCountries from "../controls/MultiSelectCountries";
 import MultiSelectProfession from "../controls/MultiSelectProfession";
 import AgeSlider from "../controls/AgeSlider";
 import MultiSelectCountries2 from "../controls/MultiSelectCountries2";
 import FormControl from "@mui/material/FormControl";
+import { green } from "@mui/material/colors";
 
 export default function CustomersManageList() {
   const [customers, setCustomers] = useState([]);
@@ -20,11 +28,26 @@ export default function CustomersManageList() {
   const [countries, setCountries] = useState([]);
   const [professions, setProfessions] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const timer = useRef<number>();
+
+  const buttonSx = {
+    ...(success && {
+      bgcolor: green[500],
+      "&:hover": {
+        bgcolor: green[700],
+      },
+    }),
+  };
+
   useEffect(() => {
     // Define the API endpoint URL
     const apiUrl = "http://localhost:8081/api/v1/customer/getall"; // Replace with your API endpoint
 
     console.info("Getting Data from API...");
+
+    setLoading(true);
 
     // Fetch data from the API
     axios
@@ -32,9 +55,11 @@ export default function CustomersManageList() {
       .then((response) => {
         console.info("Data received from API...");
         setCustomers(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        setLoading(false);
       });
   }, []); // Empty dependency array to fetch data only once when the component mounts
 
@@ -74,6 +99,8 @@ export default function CustomersManageList() {
     const apiUrl = "http://localhost:8081/api/v1/custlist/add"; // Replace with your API endpoint
 
     console.info("Saving Filter --> " + listname);
+    setLoading(true);
+    setSuccess(false);
 
     // Fetch data from the API
     axios
@@ -81,9 +108,17 @@ export default function CustomersManageList() {
       .then((response) => {
         console.info("Filter Saved...");
         //setCustomers(response.data);
+        timer.current = window.setTimeout(() => {
+          setSuccess(true);
+          setLoading(false);
+        }, 2000);
       })
       .catch((error) => {
         console.error("Error while saving filter:", error);
+        timer.current = window.setTimeout(() => {
+          setSuccess(true);
+          setLoading(false);
+        }, 2000);
       });
   };
 
@@ -100,6 +135,9 @@ export default function CustomersManageList() {
     // Define the API endpoint URL
     const apiUrl = "http://localhost:8081/api/v1/customer/getwithfilter"; // Replace with your API endpoint
 
+    setLoading(true);
+    setSuccess(false);
+
     console.info("Getting Data from API...");
 
     // Fetch data from the API
@@ -107,10 +145,20 @@ export default function CustomersManageList() {
       .post(apiUrl, filterData)
       .then((response) => {
         console.info("Data received from API...");
-        setCustomers(response.data);
+
+        timer.current = window.setTimeout(() => {
+          setSuccess(true);
+          setLoading(false);
+          setCustomers(response.data);
+        }, 1000);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+
+        timer.current = window.setTimeout(() => {
+          setSuccess(true);
+          setLoading(false);
+        }, 1000);
       });
   };
 
@@ -134,6 +182,8 @@ export default function CustomersManageList() {
 
   return (
     <Paper sx={{ margin: "auto", overflow: "hidden", borderRadius: 0 }}>
+      {loading && <LinearProgress sx={{ position: "sticky" }} />}
+
       <AppBar
         position="static"
         color="default"
@@ -148,8 +198,16 @@ export default function CustomersManageList() {
         </Typography>
       </AppBar>
 
-      <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
-        <Paper elevation={3} sx={{ backgroundColor: "#b2dfdb", borderRadius: 0 }}>
+      <AppBar
+        position="static"
+        color="default"
+        elevation={0}
+        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
+      >
+        <Paper
+          elevation={3}
+          sx={{ backgroundColor: "#b2dfdb", borderRadius: 0 }}
+        >
           <Typography variant="h6" component="h6" align="center" padding={1}>
             Create a list by applying filters
           </Typography>
@@ -164,16 +222,23 @@ export default function CustomersManageList() {
               "& > :not(style)": { m: 1 },
             }}
           >
-            <MultiSelectProfession onProfessionSelect={handleProfessionSelect} />
-            {/* <TextField id="demo-helper-text-aligned" label="Profession" />
-            <TextField id="demo-helper-text-aligned-no-helper" label="Name" /> */}
+            <MultiSelectProfession
+              onProfessionSelect={handleProfessionSelect}
+            />
+
             <MultiSelectCountries2 onItemSelect={handleCountriesSelect} />
             <FormLabel component="h3">
               Age: <AgeSlider onItemSelect={handleAgeSelect} />
             </FormLabel>
 
-            <Button type="submit" variant="contained" size="small" color="error">
-              Apply
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={loading}
+              color="error"
+              size="small"
+            >
+              Apply Filter
             </Button>
           </Box>
         </Paper>
@@ -202,9 +267,18 @@ export default function CustomersManageList() {
             label="List Name"
             helperText="business friendly name. eg: '2023 Oct Winter Student Campaign Audience'"
           />
-          <Button type="submit" variant="contained" color="primary" size="large" sx={{ width: 200 }}>
-            Save List
-          </Button>
+
+          <Box sx={{ m: 1, position: "relative" }}>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={loading}
+              color="primary"
+              size="large"
+            >
+              Save List
+            </Button>
+          </Box>
         </Box>
       </AppBar>
       <TablePaged rows={customers} columns={columnsDef} key="customerid" />

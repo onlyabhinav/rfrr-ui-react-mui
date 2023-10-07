@@ -14,17 +14,26 @@ import DenseTable from "../controls/DenseTable";
 import DataGridDemo from "../controls/DataGridDemo";
 import TheForm from "../controls/TheForm";
 import TheForm2 from "../controls/TheForm2";
+import SignUpForm from "../controls/SignUpForm";
 
 export default function CampaignCreate() {
   return (
-    <Paper sx={{ maxWidth: 4000, margin: "auto", overflow: "hidden" }}>
-      <AppBar position="static" color="default" elevation={10} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
-        <Button variant="outlined" color="info">
-          CREATE CAMPAIGN
-        </Button>
+    <Paper sx={{ margin: "auto", overflow: "hidden", borderRadius: 0 }}>
+      <AppBar
+        position="static"
+        color="default"
+        elevation={0}
+        sx={{
+          borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+          backgroundColor: "#90caf9",
+        }}
+      >
+        <Typography variant="h3" component="h3" align="center" padding={2}>
+          Create Campaign
+        </Typography>
       </AppBar>
 
-      <TheForm2 />
+      <SignUpForm />
       {/* <DenseTable /> */}
       {/* <DataGridDemo/> */}
       {/* <SignUp/> */}

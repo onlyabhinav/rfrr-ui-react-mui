@@ -18,6 +18,8 @@
     "react-dom": "latest",
     "react-router-dom": "latest",
     "@mui/x-data-grid": "latest",
+    "@mui/x-date-pickers": "6.16.1",
+    "dayjs": "1.11.10",
     "react-final-form": "latest",
     "axios": "latest"
   },
