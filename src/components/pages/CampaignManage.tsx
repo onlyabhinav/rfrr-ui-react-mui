@@ -12,7 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import DenseTable from "../controls/DenseTable";
 import DataGridDemo from "../controls/DataGridDemo";
-import SignUpForm from "../controls/SignUpForm";
+import SignUpForm from "../controls/CreateCampaignForm";
 
 export default function CampaignManage() {
   return (
