@@ -14,6 +14,7 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "@mui/joy": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",

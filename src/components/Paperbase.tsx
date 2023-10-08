@@ -1,23 +1,20 @@
-import * as React from "react";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import Navigator from "./sections/Navigator";
+import * as React from "react";
 import CampaignHome from "./pages/CampaignHome";
 import Header from "./sections/Header";
-import HorizontalNonLinearStepper from "./controls/HorizontalNonLinearStepper";
+import Navigator from "./sections/Navigator";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateCampaign from "./pages/CampaignManage";
+import { Route, Routes } from "react-router-dom";
 import CampaignCreate from "./pages/CampaignCreate";
-import CampaignManage from "./pages/CampaignManage";
 import CampaignPerformance from "./pages/CampaignPerformance";
-import Pagenotfound from "./pages/Pagenotfound";
+import CampaignsView from "./pages/CampaignsView";
+import CustomersCreateList from "./pages/CustomerListView";
 import CustomersManageList from "./pages/CustomersManageList";
-import CustomersCreateList from "./pages/CustomersCreateList";
+import Pagenotfound from "./pages/Pagenotfound";
+import CustomerListView from "./pages/CustomerListView";
 
 let theme = createTheme({
   palette: {
@@ -202,13 +199,13 @@ export default function Paperbase() {
             <Routes>
               <Route path="/" element={<CampaignHome />} />
               <Route path="/createcampaign" element={<CampaignCreate />} />
-              <Route path="/managecampaign" element={<CampaignManage />} />
+              <Route path="/viewcampaigns" element={<CampaignsView />} />
               <Route
                 path="/campaignperformance"
                 element={<CampaignPerformance />}
               />
               <Route path="/mngcustlist" element={<CustomersManageList />} />
-              <Route path="/editcustlist" element={<CustomersCreateList />} />
+              <Route path="/viewcustlist" element={<CustomerListView />} />
               {/* <Route path="/dashboard" element={<StatsGrid />} /> */}
               <Route path="*" element={<Pagenotfound />} />
             </Routes>

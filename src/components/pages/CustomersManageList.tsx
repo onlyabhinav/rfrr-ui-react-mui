@@ -211,6 +211,7 @@ export default function CustomersManageList() {
           <Typography variant="h6" component="h6" align="center" padding={1}>
             Create a list by applying filters
           </Typography>
+
           <Box
             component="form"
             noValidate

@@ -28,14 +28,18 @@ export default function Navigator(props: DrawerProps) {
 
   // this load pages  when the page is refreshed
   useEffect(() => {
-    // const path = window.location.pathname;
-    //    const childId = path.split("/")[1];
-    setSelectedChild("createcampaign");
-    navigate("createcampaign");
+    const path = window.location.pathname;
+    const childId = path.split("/")[1];
+
+    setSelectedChild(childId);
+    navigate(childId);
   }, []);
 
   // this load pages  when button is clicked
-  const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, childId: string) => {
+  const handleListItemClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    childId: string
+  ) => {
     setSelectedChild(childId);
     navigate(childId);
   };
@@ -43,7 +47,11 @@ export default function Navigator(props: DrawerProps) {
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}>MyCampaign</ListItem>
+        <ListItem
+          sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}
+        >
+          MyCampaign
+        </ListItem>
         <ListItemButton
           sx={{ ...item, ...itemCategory }}
           selected={true}
@@ -99,8 +107,8 @@ const categories = [
         active: true,
       },
       {
-        id: "managecampaign",
-        label: "Manage Campaign",
+        id: "viewcampaigns",
+        label: "View Campaigns",
         icon: <ViewListIcon />,
       },
       {
@@ -119,7 +127,7 @@ const categories = [
         icon: <SupervisedUserCircleIcon />,
       },
       {
-        id: "editcustlist",
+        id: "viewcustlist",
         label: "Edit Customer List",
         icon: <GroupAddIcon />,
       },

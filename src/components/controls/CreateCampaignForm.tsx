@@ -1,26 +1,18 @@
 import { FormHelperText, MenuItem, Select } from "@mui/material";
-import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
+import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
-import BasicDatePicker from "./BasicDatePicker";
-import { getTodayDate } from "@mui/x-date-pickers/internals";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { countryListAllIsoData } from "../constants/countriesDemo";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -31,6 +23,8 @@ export default function CreateCampaignForm() {
     targetAudience: "",
     schedules: [{ startDate: "", endDate: "" }],
   });
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [custListData, setCustListData] = useState([
     {
@@ -44,6 +38,12 @@ export default function CreateCampaignForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const path = window.location.pathname;
+    const cId = path.split("?")[1];
+    console.log(searchParams);
+
+    const campaignId = searchParams.get("id");
+
     // Define the API endpoint URL
     const apiUrl = "http://localhost:8081/api/v1/custlist/getall"; // Replace with your API endpoint
 
@@ -96,6 +96,7 @@ export default function CreateCampaignForm() {
       campaignName: data.get("campaignName"),
       targetCustomerList: data.get("targetCustomerList"),
       targetLocation: data.get("targetLocation"),
+      campaignCode: data.get("campaignCode"),
       schedules: campaignData.schedules,
     };
 
@@ -103,7 +104,30 @@ export default function CreateCampaignForm() {
     console.log("==================================");
     console.log("JSON Payload: " + JSON.stringify(jsonPayload));
 
-    const apiUrl = "http://localhost:8081/api/v1/campaign/create"; // Replace with your API endpoint
+    const apiUrl = "http://localhost:8081/api/v1/campaign/add"; // Replace with your API endpoint
+
+    console.info("Saving Campaign --> " + jsonPayload.campaignName);
+    // setLoading(true);
+    // setSuccess(false);
+
+    // Fetch data from the API
+    axios
+      .post(apiUrl, jsonPayload)
+      .then((response) => {
+        console.info("Filter Saved...");
+        //setCustomers(response.data);
+        // timer.current = window.setTimeout(() => {
+        //   setSuccess(true);
+        //   setLoading(false);
+        // }, 2000);
+      })
+      .catch((error) => {
+        console.error("Error while saving filter:", error);
+        // timer.current = window.setTimeout(() => {
+        //   setSuccess(true);
+        //   setLoading(false);
+        // }, 2000);
+      });
   };
 
   return (
@@ -121,6 +145,7 @@ export default function CreateCampaignForm() {
           {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar> */}
+
           <Typography component="h4" variant="h4" color="primary">
             New Campaign Details
           </Typography>
@@ -131,7 +156,7 @@ export default function CreateCampaignForm() {
             sx={{ mt: 4 }}
           >
             <Grid container columnSpacing={2} rowSpacing={1}>
-              <Grid item xs={12} sx={{ verticalAlign: "center" }}>
+              <Grid item xs={8} sx={{ verticalAlign: "center" }}>
                 <Typography
                   component="label"
                   variant="overline"
@@ -149,8 +174,28 @@ export default function CreateCampaignForm() {
                   name="campaignName"
                   helperText="Enter a name for your campaign"
                 />
+              </Grid>{" "}
+              <Grid item xs={4} sx={{ verticalAlign: "center" }}>
+                <Typography
+                  component="label"
+                  variant="overline"
+                  fontWeight="bold"
+                >
+                  Campaign CODE
+                </Typography>
+                <TextField
+                  hiddenLabel
+                  fullWidth
+                  id="filled-hidden-label-small"
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  name="campaignCode"
+                  value="2023WINSTU"
+                  helperText="Code name for your campaign. Should be unique. Eg 2023WINSTU"
+                />
               </Grid>
-              <Grid item xs={12} sx={{ verticalAlign: "center" }}>
+              <Grid item xs={8} sx={{ verticalAlign: "center" }}>
                 <Typography
                   component="label"
                   variant="overline"
@@ -182,7 +227,7 @@ export default function CreateCampaignForm() {
                 </Button>
               </Grid>
               {/* Target Location */}
-              <Grid item xs={12} sx={{ verticalAlign: "center" }}>
+              <Grid item xs={4} sx={{ verticalAlign: "center" }}>
                 <Typography
                   component="label"
                   variant="overline"
@@ -210,6 +255,27 @@ export default function CreateCampaignForm() {
                   customer list. This is just for reference.
                 </FormHelperText>
               </Grid>
+              <Grid item xs={4} sx={{ verticalAlign: "center" }}>
+                <Typography
+                  component="label"
+                  variant="overline"
+                  fontWeight="bold"
+                >
+                  Min Limit
+                </Typography>
+                <TextField
+                  hiddenLabel
+                  fullWidth
+                  id="filled-hidden-label-small"
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  name="campaignCode"
+                  value="2023WINSTU"
+                  helperText="Code name for your campaign. Should be unique. Eg 2023WINSTU"
+                />
+              </Grid>
+              {/* Schedule Start */}
               <Grid item xs={12} sx={{ verticalAlign: "center" }}>
                 <Typography component="h1" variant="overline" fontWeight="bold">
                   Schedules:
