@@ -36,10 +36,7 @@ export default function Navigator(props: DrawerProps) {
   }, []);
 
   // this load pages  when button is clicked
-  const handleListItemClick = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    childId: string
-  ) => {
+  const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, childId: string) => {
     setSelectedChild(childId);
     navigate(childId);
   };
@@ -47,11 +44,7 @@ export default function Navigator(props: DrawerProps) {
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem
-          sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}
-        >
-          MyCampaign
-        </ListItem>
+        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}>MyCampaign</ListItem>
         <ListItemButton
           sx={{ ...item, ...itemCategory }}
           selected={true}
@@ -98,7 +91,7 @@ export default function Navigator(props: DrawerProps) {
 
 const categories = [
   {
-    id: "Campaigns",
+    id: "Manage Campaigns 🛠️",
     children: [
       {
         id: "createcampaign",
@@ -111,6 +104,16 @@ const categories = [
         label: "View Campaigns",
         icon: <ViewListIcon />,
       },
+    ],
+  },
+  {
+    id: "LIVE Campaigns 🟢",
+    children: [
+      {
+        id: "runningcampaigns",
+        label: "Running Campaigns",
+        icon: <SupervisedUserCircleIcon />,
+      },
       {
         id: "campaignperformance",
         label: "Campaign Performance",
@@ -119,16 +122,16 @@ const categories = [
     ],
   },
   {
-    id: "Customers",
+    id: "Manage Customers 🧑‍🤝‍🧑",
     children: [
       {
         id: "mngcustlist",
-        label: "Manage Customer List",
+        label: "Create Customer List",
         icon: <SupervisedUserCircleIcon />,
       },
       {
         id: "viewcustlist",
-        label: "Edit Customer List",
+        label: "View Customer List",
         icon: <GroupAddIcon />,
       },
     ],
