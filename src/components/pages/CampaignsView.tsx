@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  FormLabel,
-  LinearProgress,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { Box, Button, FormLabel, LinearProgress, MenuItem, TextField } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -28,12 +21,22 @@ export default function CampaignsView() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Define the API endpoint URL
-    const apiUrl = "http://localhost:8081/api/v1/campaign/getall"; // Replace with your API endpoint
-
     console.info("Getting Data from API...");
 
-    setLoading(true);
+    const intervalId = setInterval(getDataFromAPI, 10000);
+
+    getDataFromAPI();
+
+    //setLoading(true);
+    // Clear the interval when the component is unmounted or when the dependency array changes
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array to fetch data only once when the component mounts
+
+  // get data from the API
+  const getDataFromAPI = () => {
+    console.info("Getting Data from API... from TIMER " + new Date().toLocaleString());
+    // Define the API endpoint URL
+    const apiUrl = "http://localhost:8081/api/v1/campaign/getall"; // Replace with your API endpoint
 
     // Fetch data from the API
     axios
@@ -47,15 +50,15 @@ export default function CampaignsView() {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, []); // Empty dependency array to fetch data only once when the component mounts
+  };
 
   const columnsDef = [
     "id",
     "campaignName",
     "campaignCode",
-    "active",
+    "campaignStatus",
     "targetAudienceKey",
-    "createdById",
+    //"createdById",
     "revision",
     "targetLocation",
   ];
@@ -78,12 +81,7 @@ export default function CampaignsView() {
         </Typography>
       </AppBar>
 
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
-      >
+      <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
         <Box
           component="form"
           noValidate
@@ -99,14 +97,7 @@ export default function CampaignsView() {
           <Typography variant="h6" component="h6" align="left" padding={1}>
             Find
           </Typography>
-          <TextField
-            id="listname"
-            name="listname"
-            select
-            sx={{ width: 450 }}
-            size="small"
-            label="Select Campaign"
-          >
+          <TextField id="listname" name="listname" select sx={{ width: 450 }} size="small" label="Select Campaign">
             {campaigns.map((item: any) => (
               <MenuItem key={item.id} value={item.id}>
                 {"[" + item.id + "] - " + item.campaignName}
@@ -115,18 +106,10 @@ export default function CampaignsView() {
           </TextField>
 
           <Box sx={{ m: 1, position: "relative" }}>
-            <Button
-              variant="contained"
-              disabled={loading}
-              color="primary"
-              size="large"
-            >
+            <Button variant="contained" disabled={loading} color="primary" size="large">
               Open Campaign
             </Button>
-            <Button
-              onClick={() => navigate("/createcampaign?id=30")}
-              size="small"
-            >
+            <Button onClick={() => navigate("/createcampaign?id=30")} size="small">
               Click here to create a new customer list
             </Button>
           </Box>
