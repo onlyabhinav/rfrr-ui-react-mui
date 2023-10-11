@@ -15,6 +15,7 @@ import CustomersCreateList from "./pages/CustomerListView";
 import CustomersManageList from "./pages/CustomersManageList";
 import Pagenotfound from "./pages/Pagenotfound";
 import CustomerListView from "./pages/CustomerListView";
+import LiveCampaignsView from "./pages/LiveCampaignsView";
 
 let theme = createTheme({
   palette: {
@@ -200,6 +201,7 @@ export default function Paperbase() {
               <Route path="/" element={<CampaignHome />} />
               <Route path="/createcampaign" element={<CampaignCreate />} />
               <Route path="/viewcampaigns" element={<CampaignsView />} />
+              <Route path="/runningcampaigns" element={<LiveCampaignsView />} />
               <Route
                 path="/campaignperformance"
                 element={<CampaignPerformance />}
