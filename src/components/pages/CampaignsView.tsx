@@ -1,15 +1,12 @@
-import { Box, Button, FormLabel, LinearProgress, MenuItem, TextField } from "@mui/material";
+import { Box, Button, LinearProgress, MenuItem, TextField } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { green } from "@mui/material/colors";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import AgeSlider from "../controls/AgeSlider";
-import MultiSelectCountries2 from "../controls/MultiSelectCountries2";
-import MultiSelectProfession from "../controls/MultiSelectProfession";
-import TablePaged from "../controls/TablePaged";
 import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../constants/API_URLS";
+import TablePaged from "../controls/TablePaged";
 
 export default function CampaignsView() {
   const [campaigns, setCampaigns] = useState([]);
@@ -36,7 +33,7 @@ export default function CampaignsView() {
   const getDataFromAPI = () => {
     console.info("Getting Data from API... from TIMER " + new Date().toLocaleString());
     // Define the API endpoint URL
-    const apiUrl = "http://localhost:8081/api/v1/campaign/getall"; // Replace with your API endpoint
+    const apiUrl = ENDPOINTS.CAMPAIGN_GET_ALL;
 
     // Fetch data from the API
     axios

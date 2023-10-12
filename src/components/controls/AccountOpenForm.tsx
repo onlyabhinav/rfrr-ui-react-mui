@@ -48,7 +48,7 @@ export default function CreateCampaignForm() {
     // Define the API endpoint URL
     const apiUrl = ENDPOINTS.CUSTLIST_GET_ALL;
 
-    //"http://localhost:8081/api/v1/custlist/getall"; // Replace with your API endpoint
+    //   "http://localhost:8081/api/v1/custlist/getall"; // Replace with your API endpoint
 
     console.info("Getting Data from API...");
 
@@ -107,8 +107,7 @@ export default function CreateCampaignForm() {
     console.log("==================================");
     console.log("JSON Payload: " + JSON.stringify(jsonPayload));
 
-    const apiUrl = ENDPOINTS.CAMPAIGN_ADD;
-    //"http://localhost:8081/api/v1/campaign/add"; // Replace with your API endpoint
+    const apiUrl = "http://localhost:8081/api/v1/campaign/add"; // Replace with your API endpoint
 
     console.info("Saving Campaign --> " + jsonPayload.campaignName);
     // setLoading(true);
@@ -151,13 +150,13 @@ export default function CreateCampaignForm() {
           </Avatar> */}
 
           <Typography component="h4" variant="h4" color="primary">
-            New Campaign Details
+            New Account
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 4 }}>
             <Grid container columnSpacing={2} rowSpacing={1}>
               <Grid item xs={8} sx={{ verticalAlign: "center" }}>
                 <Typography component="label" variant="overline" fontWeight="bold">
-                  Campaign Name
+                  Your Name
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -166,13 +165,12 @@ export default function CreateCampaignForm() {
                   variant="outlined"
                   color="primary"
                   size="small"
-                  name="campaignName"
-                  helperText="Enter a name for your campaign"
+                  name="customerName"
                 />
               </Grid>{" "}
               <Grid item xs={4} sx={{ verticalAlign: "center" }}>
                 <Typography component="label" variant="overline" fontWeight="bold">
-                  Campaign CODE
+                  Referral CODE
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -181,7 +179,7 @@ export default function CreateCampaignForm() {
                   variant="outlined"
                   color="primary"
                   size="small"
-                  name="campaignCode"
+                  name="referralCode"
                   value="2023WINSTU"
                   helperText="Code name for your campaign. Should be unique. Eg 2023WINSTU"
                 />

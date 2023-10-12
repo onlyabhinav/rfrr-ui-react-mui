@@ -1,21 +1,12 @@
-import {
-  Box,
-  Button,
-  FormLabel,
-  LinearProgress,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { Box, Button, LinearProgress, MenuItem, TextField } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { green } from "@mui/material/colors";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import AgeSlider from "../controls/AgeSlider";
-import MultiSelectCountries2 from "../controls/MultiSelectCountries2";
-import MultiSelectProfession from "../controls/MultiSelectProfession";
 import TablePaged from "../controls/TablePaged";
+import { ENDPOINTS } from "../constants/API_URLS";
 
 export default function CustomerListView() {
   const [campaigns, setCampaigns] = useState([]);
@@ -35,7 +26,7 @@ export default function CustomerListView() {
 
   useEffect(() => {
     // Define the API endpoint URL
-    const apiUrl = "http://localhost:8081/api/v1/custlist/getall"; // Replace with your API endpoint
+    const apiUrl = ENDPOINTS.CUSTLIST_GET_ALL;
 
     console.info("Getting Data from API...");
 
@@ -81,12 +72,7 @@ export default function CustomerListView() {
         </Typography>
       </AppBar>
 
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
-      >
+      <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
         <Box
           component="form"
           noValidate
@@ -102,14 +88,7 @@ export default function CustomerListView() {
           <Typography variant="h6" component="h6" align="left" padding={1}>
             Find
           </Typography>
-          <TextField
-            id="listname"
-            name="listname"
-            select
-            sx={{ width: 450 }}
-            size="small"
-            label="Select List"
-          >
+          <TextField id="listname" name="listname" select sx={{ width: 450 }} size="small" label="Select List">
             {campaigns.map((item: any) => (
               <MenuItem key={item.id} value={item.id}>
                 {"[" + item.id + "] - " + item.name}
@@ -118,13 +97,7 @@ export default function CustomerListView() {
           </TextField>
 
           <Box sx={{ m: 1, position: "relative" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={loading}
-              color="primary"
-              size="large"
-            >
+            <Button type="submit" variant="contained" disabled={loading} color="primary" size="large">
               Open Customer List
             </Button>
           </Box>

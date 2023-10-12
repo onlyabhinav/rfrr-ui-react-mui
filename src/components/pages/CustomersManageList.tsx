@@ -1,25 +1,15 @@
+import { Box, Button, FormLabel, LinearProgress, TextField } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { green } from "@mui/material/colors";
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
-import TablePaged from "../controls/TablePaged";
-import FormEx from "../controls/FormEx";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  FormLabel,
-  LinearProgress,
-  TextField,
-} from "@mui/material";
-import MultiSelectChip from "../controls/MultiSelectCountries";
-import MultiSelectCountries from "../controls/MultiSelectCountries";
-import MultiSelectProfession from "../controls/MultiSelectProfession";
+import { useEffect, useRef, useState } from "react";
 import AgeSlider from "../controls/AgeSlider";
 import MultiSelectCountries2 from "../controls/MultiSelectCountries2";
-import FormControl from "@mui/material/FormControl";
-import { green } from "@mui/material/colors";
+import MultiSelectProfession from "../controls/MultiSelectProfession";
+import TablePaged from "../controls/TablePaged";
+import { ENDPOINTS } from "../constants/API_URLS";
 
 export default function CustomersManageList() {
   const [customers, setCustomers] = useState([]);
@@ -43,7 +33,8 @@ export default function CustomersManageList() {
 
   useEffect(() => {
     // Define the API endpoint URL
-    const apiUrl = "http://localhost:8081/api/v1/customer/getall"; // Replace with your API endpoint
+    const apiUrl = ENDPOINTS.CUSTOMER_GET_ALL;
+    //"http://localhost:8081/api/v1/customer/getall"; // Replace with your API endpoint
 
     console.info("Getting Data from API...");
 
@@ -96,7 +87,8 @@ export default function CustomersManageList() {
     console.log(filterData);
 
     // Define the API endpoint URL
-    const apiUrl = "http://localhost:8081/api/v1/custlist/add"; // Replace with your API endpoint
+    //"http://localhost:8081/api/v1/custlist/add";
+    const apiUrl = ENDPOINTS.CUSTLIST_ADD;
 
     console.info("Saving Filter --> " + listname);
     setLoading(true);
@@ -133,7 +125,8 @@ export default function CustomersManageList() {
     console.log("Filters --> " + filterData);
 
     // Define the API endpoint URL
-    const apiUrl = "http://localhost:8081/api/v1/customer/getwithfilter"; // Replace with your API endpoint
+    const apiUrl = ENDPOINTS.CUSTOMER_GET_FILTERED;
+    //    "http://localhost:8081/api/v1/customer/getwithfilter"; // Replace with your API endpoint
 
     setLoading(true);
     setSuccess(false);
@@ -150,7 +143,7 @@ export default function CustomersManageList() {
           setSuccess(true);
           setLoading(false);
           setCustomers(response.data);
-        }, 1000);
+        }, 500);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -158,7 +151,7 @@ export default function CustomersManageList() {
         timer.current = window.setTimeout(() => {
           setSuccess(true);
           setLoading(false);
-        }, 1000);
+        }, 500);
       });
   };
 
@@ -198,16 +191,8 @@ export default function CustomersManageList() {
         </Typography>
       </AppBar>
 
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
-      >
-        <Paper
-          elevation={3}
-          sx={{ backgroundColor: "#b2dfdb", borderRadius: 0 }}
-        >
+      <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
+        <Paper elevation={3} sx={{ backgroundColor: "#b2dfdb", borderRadius: 0 }}>
           <Typography variant="h6" component="h6" align="center" padding={1}>
             Create a list by applying filters
           </Typography>
@@ -223,22 +208,14 @@ export default function CustomersManageList() {
               "& > :not(style)": { m: 1 },
             }}
           >
-            <MultiSelectProfession
-              onProfessionSelect={handleProfessionSelect}
-            />
+            <MultiSelectProfession onProfessionSelect={handleProfessionSelect} />
 
             <MultiSelectCountries2 onItemSelect={handleCountriesSelect} />
             <FormLabel component="h3">
               Age: <AgeSlider onItemSelect={handleAgeSelect} />
             </FormLabel>
 
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={loading}
-              color="error"
-              size="small"
-            >
+            <Button type="submit" variant="contained" disabled={loading} color="error" size="small">
               Apply Filter
             </Button>
           </Box>
@@ -270,13 +247,7 @@ export default function CustomersManageList() {
           />
 
           <Box sx={{ m: 1, position: "relative" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={loading}
-              color="primary"
-              size="large"
-            >
+            <Button type="submit" variant="contained" disabled={loading} color="primary" size="large">
               Save List
             </Button>
           </Box>

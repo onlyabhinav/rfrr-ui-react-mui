@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  FormLabel,
-  LinearProgress,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
+import { Box, Button, FormLabel, LinearProgress, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -19,6 +10,7 @@ import MultiSelectCountries2 from "../controls/MultiSelectCountries2";
 import MultiSelectProfession from "../controls/MultiSelectProfession";
 import TablePaged from "../controls/TablePaged";
 import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../constants/API_URLS";
 
 export default function LiveCampaignsView() {
   const [campaigns, setCampaigns] = useState([]);
@@ -35,7 +27,8 @@ export default function LiveCampaignsView() {
 
   useEffect(() => {
     // Define the API endpoint URL
-    const apiUrl = "http://localhost:8081/api/v1/campaign/getlivecampaigns"; // Replace with your API endpoint
+    const apiUrl = ENDPOINTS.LIVECAMPAIGN_GET_ALL;
+    //"http://localhost:8081/api/v1/campaign/getlivecampaigns"; // Replace with your API endpoint
 
     console.info("Getting Data from API...");
 
@@ -81,9 +74,10 @@ export default function LiveCampaignsView() {
     console.log("Filters --> " + filterData);
 
     // Define the API endpoint URL
-    const apiUrl = "http://localhost:8081/api/v1/customer/getwithfilter"; // Replace with your API endpoint
+    const apiUrl = ENDPOINTS
+      //"http://localhost:8081/api/v1/customer/getwithfilter"; // Replace with your API endpoint
 
-    setLoading(true);
+      .setLoading(true);
     setSuccess(false);
 
     console.info("Getting Data from API...");
@@ -128,12 +122,7 @@ export default function LiveCampaignsView() {
         </Typography>
       </AppBar>
 
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
-      >
+      <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}>
         <Box
           component="form"
           noValidate
@@ -160,24 +149,14 @@ export default function LiveCampaignsView() {
             onChange={handleMenuItemClick}
           >
             {campaigns.map((item: any, index) => (
-              <MenuItem
-                key={item.id}
-                value={item.id}
-                selected={index === selectedIndex}
-              >
+              <MenuItem key={item.id} value={item.id} selected={index === selectedIndex}>
                 {"[" + item.id + "] - " + item.campaignName}
               </MenuItem>
             ))}
           </Select>
 
           <Box sx={{ m: 1, position: "relative" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={loading}
-              color="primary"
-              size="large"
-            >
+            <Button type="submit" variant="contained" disabled={loading} color="primary" size="large">
               Show Details
             </Button>
           </Box>
