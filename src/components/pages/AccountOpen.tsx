@@ -2,6 +2,7 @@ import AppBar from "@mui/material/AppBar";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import CreateCampaignForm from "../controls/CreateCampaignForm";
+import AccountOpenForm from "../controls/AccountOpenForm";
 
 export default function CampaignCreate() {
   return (
@@ -20,7 +21,7 @@ export default function CampaignCreate() {
         </Typography>
       </AppBar>
 
-      <CreateCampaignForm />
+      <AccountOpenForm />
     </Paper>
   );
 }

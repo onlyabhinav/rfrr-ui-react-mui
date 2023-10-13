@@ -16,6 +16,7 @@ import CustomersManageList from "./pages/CustomersManageList";
 import Pagenotfound from "./pages/Pagenotfound";
 import CustomerListView from "./pages/CustomerListView";
 import LiveCampaignsView from "./pages/LiveCampaignsView";
+import AccountOpenForm from "./controls/AccountOpenForm";
 
 let theme = createTheme({
   palette: {
@@ -174,10 +175,7 @@ export default function Paperbase() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", minHeight: "100vh" }}>
         <CssBaseline />
-        <Box
-          component="nav"
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        >
+        <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
           {isSmUp ? null : (
             <Navigator
               PaperProps={{ style: { width: drawerWidth } }}
@@ -186,28 +184,20 @@ export default function Paperbase() {
               onClose={handleDrawerToggle}
             />
           )}
-          <Navigator
-            PaperProps={{ style: { width: drawerWidth } }}
-            sx={{ display: { sm: "block", xs: "none" } }}
-          />
+          <Navigator PaperProps={{ style: { width: drawerWidth } }} sx={{ display: { sm: "block", xs: "none" } }} />
         </Box>
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <Header onDrawerToggle={handleDrawerToggle} />
-          <Box
-            component="main"
-            sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}
-          >
+          <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}>
             <Routes>
               <Route path="/" element={<CampaignHome />} />
               <Route path="/createcampaign" element={<CampaignCreate />} />
               <Route path="/viewcampaigns" element={<CampaignsView />} />
               <Route path="/runningcampaigns" element={<LiveCampaignsView />} />
-              <Route
-                path="/campaignperformance"
-                element={<CampaignPerformance />}
-              />
+              <Route path="/campaignperformance" element={<CampaignPerformance />} />
               <Route path="/mngcustlist" element={<CustomersManageList />} />
               <Route path="/viewcustlist" element={<CustomerListView />} />
+              <Route path="/accountopen" element={<AccountOpenForm />} />
               {/* <Route path="/dashboard" element={<StatsGrid />} /> */}
               <Route path="*" element={<Pagenotfound />} />
             </Routes>

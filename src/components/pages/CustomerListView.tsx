@@ -6,7 +6,7 @@ import { green } from "@mui/material/colors";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import TablePaged from "../controls/TablePaged";
-import { ENDPOINTS } from "../constants/API_URLS";
+import { I_CUSTLIST_GET_ALL } from "../constants/API_URLS";
 
 export default function CustomerListView() {
   const [campaigns, setCampaigns] = useState([]);
@@ -26,7 +26,7 @@ export default function CustomerListView() {
 
   useEffect(() => {
     // Define the API endpoint URL
-    const apiUrl = ENDPOINTS.CUSTLIST_GET_ALL;
+    const apiUrl = I_CUSTLIST_GET_ALL;
 
     console.info("Getting Data from API...");
 

@@ -1,7 +1,5 @@
-import { FormHelperText, MenuItem, Select } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
@@ -12,18 +10,22 @@ import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { countryListAllIsoData } from "../constants/countriesDemo";
-import { ENDPOINTS } from "../constants/API_URLS";
+import { I_CUSTLIST_GET_ALL, I_NEW_ACCOUNT_OPEN } from "../constants/API_URLS";
+import PopupMessage from "./PopupMessage";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function CreateCampaignForm() {
+export default function AccountOpenForm() {
   const [campaignData, setCampaignData] = useState({
     campaignName: "",
     targetAudience: "",
     schedules: [{ startDate: "", endDate: "" }],
   });
+
+  const [errorMode, setErrorMode] = useState(false);
+  const [errorText, setErrorText] = useState("NO ERROR");
+  const [errorTitle, setErrorTitle] = useState("Unable to proceed due to below error:");
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -46,7 +48,7 @@ export default function CreateCampaignForm() {
     const campaignId = searchParams.get("id");
 
     // Define the API endpoint URL
-    const apiUrl = ENDPOINTS.CUSTLIST_GET_ALL;
+    const apiUrl = I_CUSTLIST_GET_ALL;
 
     //   "http://localhost:8081/api/v1/custlist/getall"; // Replace with your API endpoint
 
@@ -91,25 +93,30 @@ export default function CreateCampaignForm() {
     setCampaignData({ ...campaignData, schedules: updatedSchedules });
   };
 
+  const handleClose = () => {
+    setErrorMode(false);
+    //setSnackBarState(false);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     const jsonPayload = {
-      campaignName: data.get("campaignName"),
-      targetCustomerList: data.get("targetCustomerList"),
-      targetLocation: data.get("targetLocation"),
-      campaignCode: data.get("campaignCode"),
-      schedules: campaignData.schedules,
+      name: data.get("customerName"),
+      email: data.get("customerEmail"),
+      phone: data.get("customerPhone"),
+      referralCode: data.get("referralCode"),
     };
 
     console.log(jsonPayload);
     console.log("==================================");
     console.log("JSON Payload: " + JSON.stringify(jsonPayload));
 
-    const apiUrl = "http://localhost:8081/api/v1/campaign/add"; // Replace with your API endpoint
+    const apiUrl = I_NEW_ACCOUNT_OPEN; // Replace with your API endpoint
 
-    console.info("Saving Campaign --> " + jsonPayload.campaignName);
+    console.log("Endpoint: " + apiUrl);
+
     // setLoading(true);
     // setSuccess(false);
 
@@ -125,7 +132,10 @@ export default function CreateCampaignForm() {
         // }, 2000);
       })
       .catch((error) => {
-        console.error("Error while saving filter:", error);
+        console.error("ERROR ON ACCOUNT OPEN", error);
+        setErrorMode(true);
+        setErrorText(error.response.data);
+
         // timer.current = window.setTimeout(() => {
         //   setSuccess(true);
         //   setLoading(false);
@@ -153,6 +163,13 @@ export default function CreateCampaignForm() {
             New Account
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 4 }}>
+            <PopupMessage
+              errorMode={errorMode}
+              errorText={errorText}
+              errorTitle={errorTitle}
+              onPopupClose={handleClose}
+            />
+
             <Grid container columnSpacing={2} rowSpacing={1}>
               <Grid item xs={8} sx={{ verticalAlign: "center" }}>
                 <Typography component="label" variant="overline" fontWeight="bold">
@@ -180,57 +197,11 @@ export default function CreateCampaignForm() {
                   color="primary"
                   size="small"
                   name="referralCode"
-                  value="2023WINSTU"
-                  helperText="Code name for your campaign. Should be unique. Eg 2023WINSTU"
                 />
               </Grid>
               <Grid item xs={8} sx={{ verticalAlign: "center" }}>
                 <Typography component="label" variant="overline" fontWeight="bold">
-                  Target Customer List:
-                </Typography>
-                <Select
-                  fullWidth
-                  name="targetCustomerList"
-                  id="filled-hidden-label-small"
-                  variant="outlined"
-                  size="small"
-                >
-                  {custListData.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      <Typography component="h1" variant="overline">
-                        {"[" + item.id + "] " + item.name}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText color="error">
-                  Note: Please create customer list first. Available Customer lists will be shown here.
-                </FormHelperText>
-                <Button onClick={() => navigate("/mngcustlist")} size="small">
-                  Click here to create a new customer list
-                </Button>
-              </Grid>
-              {/* Target Location */}
-              <Grid item xs={4} sx={{ verticalAlign: "center" }}>
-                <Typography component="label" variant="overline" fontWeight="bold">
-                  Target Location:
-                </Typography>
-                <Select fullWidth name="targetLocation" id="filled-hidden-label-small" variant="outlined" size="small">
-                  {countryListAllIsoData.map((item) => (
-                    <MenuItem key={item.code3} value={item.code3}>
-                      <Typography component="h1" variant="overline">
-                        {"[" + item.code3 + "] " + item.name}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText color="error">
-                  Note: Actual location will be determined by the target customer list. This is just for reference.
-                </FormHelperText>
-              </Grid>
-              <Grid item xs={4} sx={{ verticalAlign: "center" }}>
-                <Typography component="label" variant="overline" fontWeight="bold">
-                  Min Limit
+                  Email{" "}
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -239,109 +210,26 @@ export default function CreateCampaignForm() {
                   variant="outlined"
                   color="primary"
                   size="small"
-                  name="campaignCode"
-                  value="2023WINSTU"
-                  helperText="Code name for your campaign. Should be unique. Eg 2023WINSTU"
+                  name="customerEmail"
                 />
               </Grid>
-              {/* Schedule Start */}
-              <Grid item xs={12} sx={{ verticalAlign: "center" }}>
-                <Typography component="h1" variant="overline" fontWeight="bold">
-                  Schedules:
+              <Grid item xs={4} sx={{ verticalAlign: "center" }}>
+                <Typography component="label" variant="overline" fontWeight="bold">
+                  Phone Number
                 </Typography>
-
-                {campaignData.schedules.map((schedule, index) => (
-                  <Box
-                    padding={2}
-                    key={index}
-                    sx={{
-                      backgroundColor: "#ddeeff",
-                      alignContent: "center",
-                      marginBottom: 1,
-                      marginLeft: 1,
-                      padding: 1,
-                      borderRadius: 4,
-                    }}
-                  >
-                    {/* <div key={index}> */}
-                    <Typography component="header" variant="button" color="primary" fontWeight="bold">
-                      Schedule {index + 1}
-                    </Typography>
-                    <Typography
-                      component="label"
-                      variant="button"
-                      padding={2}
-                      sx={{
-                        mt: 2,
-                        mb: 2,
-                        mr: 2,
-                        alignContent: "center",
-                      }}
-                    >
-                      Start Date:
-                      <input
-                        size={100}
-                        type="date"
-                        name="startDate"
-                        value={schedule.startDate}
-                        onChange={(e) => handleChange(e, index)}
-                      />
-                    </Typography>
-
-                    <Typography
-                      component="label"
-                      variant="button"
-                      sx={{
-                        mt: 2,
-                        mb: 2,
-                        mr: 1,
-                        alignContent: "center",
-                        marginLeft: 2,
-                      }}
-                    >
-                      End Date:
-                      <input
-                        type="date"
-                        name="endDate"
-                        value={schedule.endDate}
-                        onChange={(e) => handleChange(e, index)}
-                      />
-                    </Typography>
-
-                    <Chip
-                      variant="outlined"
-                      color="error"
-                      size="small"
-                      label="Remove"
-                      sx={{
-                        mt: 2,
-                        mb: 2,
-                        alignContent: "center",
-                        marginLeft: 2,
-                      }}
-                      onClick={() => removeSchedule(index)}
-                    />
-                    {/* </div> */}
-                  </Box>
-                ))}
-                {/* <BasicDatePicker /> */}
-
-                <Button
+                <TextField
+                  hiddenLabel
+                  fullWidth
+                  id="filled-hidden-label-small"
+                  variant="outlined"
+                  color="primary"
                   size="small"
-                  sx={{
-                    mt: 2,
-                    mb: 2,
-                    alignContent: "center",
-                    fontWeight: "bold",
-                  }}
-                  onClick={addSchedule}
-                >
-                  Add schedule
-                </Button>
-              </Grid>
+                  name="customerPhone"
+                />
+              </Grid>{" "}
               <Grid item xs={12} sx={{ verticalAlign: "center", horizontalAlign: "right" }}>
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth>
-                  Create
+                  Proceed to Open Account
                 </Button>
               </Grid>
             </Grid>

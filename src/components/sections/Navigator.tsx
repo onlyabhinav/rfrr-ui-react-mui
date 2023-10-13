@@ -45,7 +45,7 @@ export default function Navigator(props: DrawerProps) {
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}>MyCampaign</ListItem>
-        <ListItemButton
+        {/* <ListItemButton
           sx={{ ...item, ...itemCategory }}
           selected={true}
           key={"dashboard"}
@@ -55,7 +55,7 @@ export default function Navigator(props: DrawerProps) {
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText>Dashboard</ListItemText>
-        </ListItemButton>
+        </ListItemButton> */}
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: "#101F33" }}>
             <ListItem sx={{ py: 2, px: 3 }}>

@@ -13,7 +13,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { countryListAllIsoData } from "../constants/countriesDemo";
-import { ENDPOINTS } from "../constants/API_URLS";
+import { I_CAMPAIGN_ADD, I_CUSTLIST_GET_ALL } from "../constants/API_URLS";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -46,7 +46,7 @@ export default function CreateCampaignForm() {
     const campaignId = searchParams.get("id");
 
     // Define the API endpoint URL
-    const apiUrl = ENDPOINTS.CUSTLIST_GET_ALL;
+    const apiUrl = I_CUSTLIST_GET_ALL;
 
     //"http://localhost:8081/api/v1/custlist/getall"; // Replace with your API endpoint
 
@@ -100,6 +100,7 @@ export default function CreateCampaignForm() {
       targetCustomerList: data.get("targetCustomerList"),
       targetLocation: data.get("targetLocation"),
       campaignCode: data.get("campaignCode"),
+      maxReferralLimit: data.get("maxReferralLimit"),
       schedules: campaignData.schedules,
     };
 
@@ -107,7 +108,7 @@ export default function CreateCampaignForm() {
     console.log("==================================");
     console.log("JSON Payload: " + JSON.stringify(jsonPayload));
 
-    const apiUrl = ENDPOINTS.CAMPAIGN_ADD;
+    const apiUrl = I_CAMPAIGN_ADD;
     //"http://localhost:8081/api/v1/campaign/add"; // Replace with your API endpoint
 
     console.info("Saving Campaign --> " + jsonPayload.campaignName);
@@ -182,9 +183,10 @@ export default function CreateCampaignForm() {
                   color="primary"
                   size="small"
                   name="campaignCode"
-                  value="2023WINSTU"
-                  helperText="Code name for your campaign. Should be unique. Eg 2023WINSTU"
-                />
+                  helperText="OPTIONAL: Code name for your campaign. Will be appended to referral code for easy identification. Eg 2023WINSTU"
+                >
+                  2023WINSTU
+                </TextField>
               </Grid>
               <Grid item xs={8} sx={{ verticalAlign: "center" }}>
                 <Typography component="label" variant="overline" fontWeight="bold">
@@ -230,9 +232,9 @@ export default function CreateCampaignForm() {
                   Note: Actual location will be determined by the target customer list. This is just for reference.
                 </FormHelperText>
               </Grid>
-              <Grid item xs={4} sx={{ verticalAlign: "center" }}>
+              <Grid item xs={6} sx={{ verticalAlign: "center" }}>
                 <Typography component="label" variant="overline" fontWeight="bold">
-                  Min Limit
+                  Max Referrals per Customer:
                 </Typography>
                 <TextField
                   hiddenLabel
@@ -241,10 +243,12 @@ export default function CreateCampaignForm() {
                   variant="outlined"
                   color="primary"
                   size="small"
-                  name="campaignCode"
-                  value="2023WINSTU"
-                  helperText="Code name for your campaign. Should be unique. Eg 2023WINSTU"
-                />
+                  name="maxReferralLimit"
+                  inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                  helperText="Maximun number of referrals allowed per customer"
+                >
+                  2
+                </TextField>
               </Grid>
               {/* Schedule Start */}
               <Grid item xs={12} sx={{ verticalAlign: "center" }}>

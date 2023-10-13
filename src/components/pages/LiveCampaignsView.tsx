@@ -10,10 +10,12 @@ import MultiSelectCountries2 from "../controls/MultiSelectCountries2";
 import MultiSelectProfession from "../controls/MultiSelectProfession";
 import TablePaged from "../controls/TablePaged";
 import { useNavigate } from "react-router-dom";
-import { ENDPOINTS } from "../constants/API_URLS";
+import { I_CAMPAIGN_GET_ALL, I_LIVECAMPAIGN_GET_ALL } from "../constants/API_URLS";
+import { TIMER_VALUE } from "../constants/GLOBAL_CONFIG";
 
 export default function LiveCampaignsView() {
   const [campaigns, setCampaigns] = useState([]);
+  const [campaignDetails, setCampaignDetails] = useState([]);
 
   const [selectedKey, setSelectedKey] = useState("");
 
@@ -27,7 +29,7 @@ export default function LiveCampaignsView() {
 
   useEffect(() => {
     // Define the API endpoint URL
-    const apiUrl = ENDPOINTS.LIVECAMPAIGN_GET_ALL;
+    const apiUrl = I_CAMPAIGN_GET_ALL;
     //"http://localhost:8081/api/v1/campaign/getlivecampaigns"; // Replace with your API endpoint
 
     console.info("Getting Data from API...");
@@ -50,13 +52,15 @@ export default function LiveCampaignsView() {
 
   const columnsDef = [
     "id",
-    "campaignName",
-    "campaignCode",
-    "active",
-    "targetAudienceKey",
-    "createdById",
-    "revision",
-    "targetLocation",
+    "campaignCampaignName",
+    //"campaignCode",
+    "customerId",
+    "customerName",
+    "customerEmail",
+    "customerPhone",
+    "referrerCode",
+    "qualifiedCount",
+    "rewardCount",
   ];
 
   const handleMenuItemClick = (event: SelectChangeEvent) => {
@@ -74,25 +78,25 @@ export default function LiveCampaignsView() {
     console.log("Filters --> " + filterData);
 
     // Define the API endpoint URL
-    const apiUrl = ENDPOINTS
-      //"http://localhost:8081/api/v1/customer/getwithfilter"; // Replace with your API endpoint
+    const apiUrl = I_LIVECAMPAIGN_GET_ALL + "/" + selectedKey;
+    //"http://localhost:8081/api/v1/customer/getwithfilter"; // Replace with your API endpoint
 
-      .setLoading(true);
+    setLoading(true);
     setSuccess(false);
 
     console.info("Getting Data from API...");
 
     // Fetch data from the API
     axios
-      .post(apiUrl, filterData)
+      .get(apiUrl)
       .then((response) => {
         console.info("Data received from API...");
 
         timer.current = window.setTimeout(() => {
           setSuccess(true);
           setLoading(false);
-          setCampaigns(response.data);
-        }, 1000);
+          setCampaignDetails(response.data);
+        }, TIMER_VALUE);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -100,7 +104,7 @@ export default function LiveCampaignsView() {
         timer.current = window.setTimeout(() => {
           setSuccess(true);
           setLoading(false);
-        }, 1000);
+        }, TIMER_VALUE);
       });
   };
 
@@ -118,7 +122,7 @@ export default function LiveCampaignsView() {
         }}
       >
         <Typography variant="h3" component="h3" align="center" padding={2}>
-          View Campaigns
+          View LIVE Campaigns
         </Typography>
       </AppBar>
 
@@ -162,7 +166,19 @@ export default function LiveCampaignsView() {
           </Box>
         </Box>
       </AppBar>
-      <TablePaged rows={campaigns} columns={columnsDef} key="customerid" />
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 0,
+          visibility: campaignDetails.length > 0 ? "visible" : "hidden",
+          "& > :not(style)": { m: 0 },
+        }}
+      >
+        <TablePaged rows={campaignDetails} columns={columnsDef} key="customerid" />
+      </Box>
     </Paper>
   );
 }

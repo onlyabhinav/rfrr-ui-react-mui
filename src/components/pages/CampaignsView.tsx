@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ENDPOINTS } from "../constants/API_URLS";
+import { I_CAMPAIGN_GET_ALL } from "../constants/API_URLS";
 import TablePaged from "../controls/TablePaged";
 
 export default function CampaignsView() {
@@ -33,7 +33,9 @@ export default function CampaignsView() {
   const getDataFromAPI = () => {
     console.info("Getting Data from API... from TIMER " + new Date().toLocaleString());
     // Define the API endpoint URL
-    const apiUrl = ENDPOINTS.CAMPAIGN_GET_ALL;
+    const apiUrl = I_CAMPAIGN_GET_ALL;
+
+    console.log(apiUrl);
 
     // Fetch data from the API
     axios
@@ -112,7 +114,9 @@ export default function CampaignsView() {
           </Box>
         </Box>
       </AppBar>
-      <TablePaged rows={campaigns} columns={columnsDef} key="customerid" />
+      <Box sx={{ m: 1, position: "relative" }}>
+        <TablePaged rows={campaigns} columns={columnsDef} key="customerid" />
+      </Box>
     </Paper>
   );
 }

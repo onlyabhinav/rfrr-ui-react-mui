@@ -9,7 +9,7 @@ import AgeSlider from "../controls/AgeSlider";
 import MultiSelectCountries2 from "../controls/MultiSelectCountries2";
 import MultiSelectProfession from "../controls/MultiSelectProfession";
 import TablePaged from "../controls/TablePaged";
-import { ENDPOINTS } from "../constants/API_URLS";
+import { I_CUSTLIST_ADD, I_CUSTOMER_GET_ALL, I_CUSTOMER_GET_FILTERED } from "../constants/API_URLS";
 
 export default function CustomersManageList() {
   const [customers, setCustomers] = useState([]);
@@ -33,7 +33,7 @@ export default function CustomersManageList() {
 
   useEffect(() => {
     // Define the API endpoint URL
-    const apiUrl = ENDPOINTS.CUSTOMER_GET_ALL;
+    const apiUrl = I_CUSTOMER_GET_ALL;
     //"http://localhost:8081/api/v1/customer/getall"; // Replace with your API endpoint
 
     console.info("Getting Data from API...");
@@ -88,7 +88,7 @@ export default function CustomersManageList() {
 
     // Define the API endpoint URL
     //"http://localhost:8081/api/v1/custlist/add";
-    const apiUrl = ENDPOINTS.CUSTLIST_ADD;
+    const apiUrl = I_CUSTLIST_ADD;
 
     console.info("Saving Filter --> " + listname);
     setLoading(true);
@@ -125,7 +125,7 @@ export default function CustomersManageList() {
     console.log("Filters --> " + filterData);
 
     // Define the API endpoint URL
-    const apiUrl = ENDPOINTS.CUSTOMER_GET_FILTERED;
+    const apiUrl = I_CUSTOMER_GET_FILTERED;
     //    "http://localhost:8081/api/v1/customer/getwithfilter"; // Replace with your API endpoint
 
     setLoading(true);

@@ -109,7 +109,7 @@ export default function TablePaged(props: TableDataProps) {
         <TableBody>
           {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map((row) => (
             <TableRow key={key}>
-              {columns.map((col) => (
+              {columns.map((col: string) => (
                 <TableCell align="left">{row[col]}</TableCell>
               ))}
             </TableRow>
